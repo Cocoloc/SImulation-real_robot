@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<robot  xmlns:xacro="http://www.ros.org/wiki/xacro" name="real_robot">
+
+    <xacro:include filename="$(find real_robot_description)/urdf/00-description.xacro" />
+
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+        <robotNamespace>/real_robot</robotNamespace>
+        <legacyModeNS>true</legacyModeNS>
+        <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+        </plugin>
+    </gazebo>
+
+    <xacro:macro name="wheel_trans_macro" params="pos">
+        <transmission name="${pos}_wheel_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <actuator name="${pos}_wheel_motor">
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+            <joint name="${pos}_wheel_joint">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+        </transmission>
+
+        <gazebo reference="${pos}_wheel">
+            <mu1 value="2.0"/>
+            <mu2 value="1.0"/>
+            <kp value="10000000.0" />
+            <kd value="1.0" />
+            <material>Gazebo/Black</material>
+        </gazebo>
+    </xacro:macro>
+
+   <xacro:macro name="wheel_trans_macro_back" params="pos">
+        <transmission name="${pos}_wheel_trans_back">
+            <type>transmission_interface/SimpleTransmission</type>
+            <actuator name="${pos}_wheel_motor_back">
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+            <joint name="${pos}_wheel_joint_back">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+        </transmission>
+
+        <gazebo reference="${pos}_wheel_back">
+            <mu1 value="2.0"/>
+            <mu2 value="1.0"/>
+            <kp value="10000000.0" />
+            <kd value="1.0" />
+            <material>Gazebo/Yellow</material>
+        </gazebo>
+    </xacro:macro>
+
+
+	<xacro:wheel_trans_macro pos="left" />
+	<xacro:wheel_trans_macro pos="right" />
+
+	<xacro:wheel_trans_macro_back pos="left" />
+	<xacro:wheel_trans_macro_back pos="right" />
+
+
+
+    <gazebo reference="base_link">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+
+    <xacro:include filename="$(find bot_gazebo)/urdf/sensors.gazebo.xacro" />
+
+</robot>
+
