@@ -1,5 +1,5 @@
 <launch>
-    <arg name="model" default="$(find bot_gazebo)/urdf/bot.gazebo.xacro"/>
+    <arg name="model" default="$(find real_robot_description)/urdf/real_robot.gazebo.xacro"/>
 
     <rosparam command="load"
               file="$(find bot_control)/config/joints.yaml"
@@ -12,7 +12,7 @@
 
 
     <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-    output="screen" ns="/" args="bot_velocity_controller joint_state_controller"/>
+    output="screen" ns="/real_robot" args="bot_velocity_controller joint_state_controller"/>
 
     
 </launch>
