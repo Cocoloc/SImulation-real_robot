@@ -64,8 +64,5 @@
         <material>Gazebo/Blue</material>
     </gazebo>
 
-
-    <xacro:include filename="$(find bot_gazebo)/urdf/sensors.gazebo.xacro" />
-
 </robot>
 

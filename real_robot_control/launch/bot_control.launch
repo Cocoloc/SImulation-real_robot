@@ -1,18 +1,18 @@
 <launch>
     <arg name="model" default="$(find real_robot_description)/urdf/real_robot.gazebo.xacro"/>
 
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" /> 
+
     <rosparam command="load"
-              file="$(find bot_control)/config/joints.yaml"
-              ns="joint_state_controller" />
+              file="$(find real_robot_control)/config/control.yaml" />
 
-   <rosparam command="load"
-              file="$(find bot_control)/config/diff_drive.yaml"
-              ns="bot_velocity_controller" />
+    <node name="controller_spawner" pkg="controller_manager" type="spawner"
+  args="real_robot_velocity_controller real_robot_joint_publisher"/>
 
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
-
-    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-    output="screen" ns="/real_robot" args="bot_velocity_controller joint_state_controller"/>
-
+    <node pkg="twist_mux" type="twist_mux" name="twist_mux">
+        <rosparam command="load" file="$(find real_robot_control)/config/twist_mux.yaml" />
+  </node>
     
 </launch>
