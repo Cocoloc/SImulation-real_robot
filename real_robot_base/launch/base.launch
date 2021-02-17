@@ -22,8 +22,8 @@
     <!-- Differential controller parameters and basic localization -->
     <include file="$(find real_robot_control)/launch/bot_control.launch" />
 
-   <!--Teleop -->
-    <include file="$(find ps3joy)/launch/ps3.launch" />
+   <!--Teleop >
+    <include file="$(find ps3joy)/launch/ps3.launch" /-->
 
     <!-- Diagnostic Aggregator 
     <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator">
