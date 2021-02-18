@@ -2,7 +2,7 @@
 <launch>
 
     
-    <node name="my_robot_hardware_interface" pkg="my_robot_hardware_interface" type="my_robot_hardware_interface_node" output="screen"/>
+    <node name="my_robot_hardware" pkg="my_robot_hardware" type="my_robot_hardware_interface" output="screen"/>
 
     <!-- Differential controller parameters and basic localization -->
     <include file="$(find real_robot_control)/launch/bot_control.launch" />
