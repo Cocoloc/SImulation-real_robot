@@ -1,0 +1,2 @@
+int32 LEFT
+int32 RIGHT

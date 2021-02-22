@@ -10,6 +10,7 @@
 #include <hardware_interface/joint_command_interface.h>
 #include <hardware_interface/joint_state_interface.h>
 #include <hardware_interface/robot_hw.h>
+#include <bison_base/drive.h>
 // ostringstream
 #include <sstream>
 #define M_PI 3.14159265358979323846 /* pi */
@@ -33,11 +34,17 @@ public:
     // Publish results
     std_msgs::Int32 left_wheel_vel_msg;
     std_msgs::Int32 right_wheel_vel_msg;
+    bison_base::drive wheels_msg;
     left_wheel_vel_msg.data = int((diff_ang_speed_left / (2 * M_PI)) * 60);
     right_wheel_vel_msg.data = int((diff_ang_speed_right / (2 * M_PI)) * 60);
     left_wheel_vel_pub_.publish(left_wheel_vel_msg);
     right_wheel_vel_pub_.publish(right_wheel_vel_msg);
-    ROS_INFO_STREAM(left_wheel_vel_msg);
+    //ROS_INFO_STREAM(left_wheel_vel_msg);
+    wheels_msg.LEFT=left_wheel_vel_msg.data;
+    wheels_msg.RIGHT=right_wheel_vel_msg.data ;
+
+    wheels_vel_pub.publish(wheels_msg);
+    ROS_INFO_STREAM(wheels_msg);
   }
 
   /**
@@ -97,6 +104,8 @@ private:
   ros::Subscriber right_wheel_angle_sub_;
   ros::Publisher left_wheel_vel_pub_;
   ros::Publisher right_wheel_vel_pub_;
+  ros::Publisher wheels_vel_pub;
+  ros::Subscriber wheels_angle_sub;
 
   ros::ServiceServer start_srv_;
   ros::ServiceServer stop_srv_;
@@ -163,7 +172,9 @@ BISONHWInterface::BISONHWInterface()
   // Initialize publishers and subscribers
   left_wheel_vel_pub_ = nh.advertise<std_msgs::Int32>("bison/left_wheel_vel", 1);
   right_wheel_vel_pub_ = nh.advertise<std_msgs::Int32>("bison/right_wheel_vel", 1);
+  wheels_vel_pub= nh.advertise<bison_base::drive>("bison/wheels_vel", 1);
 
   left_wheel_angle_sub_ = nh.subscribe("bison/left_wheel_angle", 1, &BISONHWInterface::leftWheelAngleCallback, this);
   right_wheel_angle_sub_ = nh.subscribe("bison/right_wheel_angle", 1, &BISONHWInterface::rightWheelAngleCallback, this);
+  wheels_angle_sub = nh.subscribe("bison/wheels_angle", 1, &BISONHWInterface::rightWheelAngleCallback, this);
 }
