@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<robot  xmlns:xacro="http://www.ros.org/wiki/xacro" name="bison">
+
+    <xacro:include filename="$(find bison_description)/urdf/base.urdf.xacro" />
+
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+        <robotNamespace>/bison</robotNamespace>
+        </plugin>
+    </gazebo>
+
+    <xacro:macro name="wheel_trans_macro" params="pos">
+        <transmission name="${pos}_wheel_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <actuator name="${pos}_wheel_motor">
+                <mechanicalReduction>10</mechanicalReduction>
+            </actuator>
+            <joint name="${pos}_wheel_joint">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+        </transmission>
+
+        <gazebo reference="${pos}_wheel">
+            <mu1 value="2.0"/>
+            <mu2 value="1.0"/>
+            <kp value="10000000.0" />
+            <kd value="1.0" />
+            <material>Gazebo/Black</material>
+        </gazebo>
+    </xacro:macro>
+
+   <xacro:macro name="wheel_trans_macro_back" params="pos">
+        <transmission name="${pos}_wheel_trans_back">
+            <type>transmission_interface/SimpleTransmission</type>
+            <actuator name="${pos}_wheel_motor_back">
+                <mechanicalReduction>10</mechanicalReduction>
+            </actuator>
+            <joint name="${pos}_wheel_joint_back">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+        </transmission>
+
+        <gazebo reference="${pos}_wheel_back">
+            <mu1 value="2.0"/>
+            <mu2 value="1.0"/>
+            <kp value="10000000.0" />
+            <kd value="1.0" />
+            <material>Gazebo/Yellow</material>
+        </gazebo>
+    </xacro:macro>
+
+
+	<xacro:wheel_trans_macro pos="left" />
+	<xacro:wheel_trans_macro pos="right" />
+
+	<xacro:wheel_trans_macro_back pos="left" />
+	<xacro:wheel_trans_macro_back pos="right" />
+
+
+
+    <gazebo reference="base_link">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+</robot>

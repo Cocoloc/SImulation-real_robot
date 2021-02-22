@@ -1,0 +1,5 @@
+<launch>
+    <arg name="robot_namespace" default="/"/>
+    <arg name="model" default="$(find bison_description)/urdf/base.urdf.xacro"/>
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
+</launch>

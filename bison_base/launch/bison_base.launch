@@ -1,0 +1,10 @@
+<launch>
+    <!-- Husky harware driver -->
+    <node pkg="bison_base" type="bison_node" name="bison_node" output="screen">
+
+    </node>
+
+    <include file="$(find bison_control)/launch/bison_control.launch" />
+
+
+</launch>

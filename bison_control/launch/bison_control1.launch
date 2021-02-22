@@ -1,0 +1,8 @@
+<launch>
+
+  <!-- Load controller configuration -->
+  <rosparam command="load" file="$(find bison_control)/config/control1.yaml" />
+
+  <!-- Spawn controllers -->
+  <node name="bison_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" args="mobile_base_controller"/>
+</launch>

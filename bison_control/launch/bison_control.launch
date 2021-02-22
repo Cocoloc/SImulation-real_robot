@@ -1,0 +1,15 @@
+<launch>
+
+  <!-- Load robot description -->
+  <include file="$(find bison_description)/launch/description.launch">
+  </include>
+
+  <!-- Load controller configuration -->
+  <rosparam command="load" file="$(find bison_control)/config/control.yaml" />
+
+  <!-- Spawn controllers -->
+  <node name="bison_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" args="bison_joint_publisher bison_velocity_controller"/>
+
+  <!-- <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" /> -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" />
+</launch>
